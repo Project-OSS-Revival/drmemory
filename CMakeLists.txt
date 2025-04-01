@@ -328,7 +328,7 @@ if (UNIX)
     endif ()
   endif ()
   if (ARM)
-    set(EXTRA_FLAGS "${EXTRA_FLAGS} -mthumb -march=armv7-a")
+    set(EXTRA_FLAGS "${EXTRA_FLAGS} -mthumb -march=armv7-a -mfpu=vfpv3-d16")
     if (ANDROID OR CMAKE_C_LIBRARY_ARCHITECTURE MATCHES "gnueabi$")
       set(EXTRA_FLAGS "${EXTRA_FLAGS} -mfloat-abi=softfp")
       # Android requires PIE.  We export symbols to match our test assumptions.

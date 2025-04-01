@@ -40,7 +40,7 @@ defaults:
 jobs:
   # AArchXX cross-compile with gcc, no tests:
   aarchxx-cross-compile:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -65,7 +65,7 @@ jobs:
         sudo apt-get update
         sudo apt-get -y install doxygen jsonlint \
           g++-arm-linux-gnueabihf g++-aarch64-linux-gnu
-        sudo add-apt-repository 'deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports focal main'
+        sudo add-apt-repository 'deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy main'
         apt download libunwind8:armhf libunwind-dev:armhf liblzma5:armhf \
           zlib1g:armhf zlib1g-dev:armhf
         mkdir ../extract
@@ -83,7 +83,7 @@ jobs:
 
   # Android ARM cross-compile with gcc, no tests:
   android-arm-cross-compile:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -104,20 +104,20 @@ jobs:
         sudo apt-get update
         sudo apt-get -y install doxygen jsonlint
         cd /tmp
-        wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip
-        unzip -q android-ndk-r10e-linux-x86_64.zip
-        export ANDROID_NDK_ROOT=/tmp/android-ndk-r10e
-        android-ndk-r10e/build/tools/make-standalone-toolchain.sh --arch=arm \
+        wget https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip
+        unzip -q android-ndk-r13b-linux-x86_64.zip
+        export ANDROID_NDK_ROOT=/tmp/android-ndk-r13b
+        android-ndk-r13b/build/tools/make-standalone-toolchain.sh --arch=arm \
           --toolchain=arm-linux-androideabi-4.9 --platform=android-21 \
-          --install-dir=/tmp/android-gcc-arm-ndk-10e
+          --install-dir=/tmp/android-gcc-arm-ndk-r13b
         # Manually force using ld.bfd, setting CMAKE_LINKER does not work.
-        ln -sf ld.bfd /tmp/android-gcc-arm-ndk-10e/arm-linux-androideabi/bin/ld
+        ln -sf ld.bfd /tmp/android-gcc-arm-ndk-r13b/arm-linux-androideabi/bin/ld
         ln -sf arm-linux-androideabi-ld.bfd \
-          /tmp/android-gcc-arm-ndk-10e/bin/arm-linux-androideabi-ld
+          /tmp/android-gcc-arm-ndk-r13b/bin/arm-linux-androideabi-ld
 
     - name: Run Suite
       working-directory: ${{ github.workspace }}
       env:
         DRMEMORY_CROSS_ANDROID_ONLY: yes
-        DRMEMORY_ANDROID_TOOLCHAIN: /tmp/android-gcc-arm-ndk-10e
+        DRMEMORY_ANDROID_TOOLCHAIN: /tmp/android-gcc-arm-ndk-r13b
       run: ./tests/runsuite_wrapper.pl travis

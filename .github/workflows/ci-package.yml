@@ -45,7 +45,7 @@ jobs:
   ###########################################################################
   # Linux tarball with 64-bit and 32-bit builds:
   x86:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -64,7 +64,7 @@ jobs:
         sudo apt-get update
         sudo apt-get -y install doxygen jsonlint g++-multilib libunwind-dev \
           zlib1g zlib1g-dev
-        sudo add-apt-repository 'deb [arch=i386] http://us.archive.ubuntu.com/ubuntu focal main'
+        sudo add-apt-repository 'deb [arch=i386] http://us.archive.ubuntu.com/ubuntu jammy main'
         apt download libunwind8:i386 libunwind-dev:i386 liblzma5:i386 \
           zlib1g:i386 zlib1g-dev:i386
         mkdir ../extract
@@ -203,7 +203,7 @@ jobs:
 
   create_release:
     needs: [x86, windows]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       # We need a checkout to run git log for the version.
