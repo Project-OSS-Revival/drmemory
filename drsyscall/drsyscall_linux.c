@@ -979,7 +979,7 @@ handle_semctl(void *drcontext, cls_syscall_t *pt, sysarg_iter_info_t *ii,
     cmd = (uint) pt->sysarg[argnum_semid + 2];
     arg_val = (ptr_int_t) pt->sysarg[argnum_semid + 3];
     union semun temp_arg;
-    if (!d_r_safe_read((void *)arg_val, sizeof(temp_arg), &temp_arg)) {
+    if (!dr_safe_read((void *)arg_val, sizeof(temp_arg), &temp_arg)) {
         ELOGF(0, f_global, "ERROR: Failed to safe_read arg_val at %p\n", (void *)arg_val);
         return;
     }
